@@ -4,6 +4,7 @@ import cv2
 from pptx import Presentation
 from pptx.util import Inches
 import fitz
+import os
 
 def convertPdf2Image() :
   pdf_path = input("Digite o caminho para o arquivo: ")
@@ -62,7 +63,7 @@ def main() :
       #print(f"Contorno{j}: ")
 
       min_area = 333410
-      
+
       if area >= min_area :
         #print(area)
         x, y, w, h = cv2.boundingRect(contourns[j-1])
@@ -74,7 +75,9 @@ def main() :
 
         slide = prs.slides.add_slide(prs.slide_layouts[5])
         slide.shapes.add_picture(img_name, left, top, prs.slide_width, prs.slide_height)
+        os.remove(img_name)
         index += 1
+    os.remove(path)
     #cv2.drawContours(img, [contourns[4]], -1, (0, 255, 0), 10)
     # for i in range(len(contourns)) :
     #   print(contourns)
