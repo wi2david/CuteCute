@@ -1,5 +1,4 @@
-Include
-Lib
-Scripts
-pyvenv.cfg
-
+/*
+!/CuteCuteSrc
+/CuteCuteSrc/*
+!CuteCuteSrc/main.py
