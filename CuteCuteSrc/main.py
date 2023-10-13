@@ -62,7 +62,7 @@ def main() :
       #print(f"Contorno{j}: ")
 
       min_area = 333410
-
+      
       if area >= min_area :
         #print(area)
         x, y, w, h = cv2.boundingRect(contourns[j-1])
