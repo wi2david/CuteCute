@@ -23,7 +23,6 @@ def convertPdf2Image() :
   pdf_document.close()
   return len_of_document, metadata['title']
 
-
 def main() :
 
   index = 1
@@ -94,24 +93,6 @@ def main() :
         #plt.show()
   prs.save(f"{title}.pptx")
   print("PDF convertido!!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__" :
   main()
