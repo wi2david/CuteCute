@@ -13,12 +13,12 @@ def convertPdf2Image() :
 
   len_of_document = len(pdf_document)
 
-  for pagina_numero in range(len_of_document):
-      page = pdf_document.load_page(pagina_numero)
+  for page_number in range(len_of_document):
+      page = pdf_document.load_page(page_number)
       
       image = page.get_pixmap(matrix=fitz.Matrix(300/72, 300/72))
       
-      image.save(f'pagina_{pagina_numero + 1}.png')
+      image.save(f'page_{page_number + 1}.png')
       
   pdf_document.close()
   return len_of_document, metadata['title']
@@ -35,23 +35,23 @@ def main() :
   len_of_document, title = convertPdf2Image()
   for i in range(1, len_of_document + 1) :
 
-    path = f"pagina_{i}.png"
+    path = f"page_{i}.png"
 
     #print(path)
     img = cv2.imread(path)
 
-    imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    #limiar, imgBinary = cv2.threshold(imgGray, 150, 255, cv2.THRESH_BINARY)
+    #limiar, img_binary = cv2.threshold(img_gray, 150, 255, cv2.THRESH_BINARY)
     
     #kernel = np.ones((5, 5), np.uint8)
-    #imgCleared = cv2.morphologyEx(imgBinary, cv2.MORPH_OPEN, kernel)
+    #img_cleared = cv2.morphologyEx(img_binary, cv2.MORPH_OPEN, kernel)
 
-    imgCanny = cv2.Canny(imgGray, 50, 200)
-    contourns, _ = cv2.findContours(imgCanny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    img_canny = cv2.Canny(img_gray, 50, 200)
+    contourns, _ = cv2.findContours(img_canny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     #cnt = contourns[4]
     area = cv2.contourArea(contourns[1])
-    per = cv2.arcLength(contourns[4], True)
+    #per = cv2.arcLength(contourns[4], True)
     #print(len(contourns))
     # print(area)
     # print(per)
@@ -61,9 +61,9 @@ def main() :
       area = cv2.contourArea(contourns[j-1])
       #print(f"Contorno{j}: ")
 
-      minArea = 333410
+      min_area = 333410
 
-      if area >= minArea :
+      if area >= min_area :
         #print(area)
         x, y, w, h = cv2.boundingRect(contourns[j-1])
         cropped_img = img[y:y+h, x:x+w]
@@ -82,13 +82,13 @@ def main() :
     #   cv2.imshow("Imagem Contornada: ", img)
     #   cv2.waitKey(0)
 
-    #cv2.imshow("Imagem Cinza: ", imgGray)
-    #cv2.imshow("Imagem Binarizada: ", imgBinary)
+    #cv2.imshow("Imagem Cinza: ", img_gray)
+    #cv2.imshow("Imagem Binarizada: ", img_binary)
 
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
-    #plt.imshow(imgCanny)
+    #plt.imshow(img_canny)
         #plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         #plt.show()
   prs.save(f"{title}.pptx")
